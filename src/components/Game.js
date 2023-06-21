@@ -4,10 +4,16 @@ import PlayerSubmissionForm from './PlayerSubmissionForm';
 import FinalPoem from './FinalPoem';
 import RecentSubmission from './RecentSubmission';
 
-const makeLine = (formData) => {
-  const {adj1, noun1, adv, verb, adj2, noun2} = formData;
-  return `The ${adj1} ${noun1} ${adv} ${verb} the ${adj2} ${noun2} .`;
-};
+const makeLine = (fields, formData) => {
+  return fields.map((field) => {
+    if (field.key) {
+      return formData[field.key];
+    } else {
+      return field;
+    }
+  }).join(' ');
+}
+
 
 const Game = () => {
   const [ lines, setLines ] = useState([]);
@@ -24,7 +30,7 @@ const Game = () => {
   const handleFormSubmit = (formData) => {
     // console.log(formData);
     // lines.push(formData);
-    setLines(lines => [...lines, makeLine(formData)]);
+    setLines(lines => [...lines, makeLine(FIELDS, formData)]);
   };
 
   const handleReveal = () => {
