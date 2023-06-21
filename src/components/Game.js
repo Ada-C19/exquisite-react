@@ -4,6 +4,11 @@ import PlayerSubmissionForm from './PlayerSubmissionForm';
 import FinalPoem from './FinalPoem';
 import RecentSubmission from './RecentSubmission';
 
+const makeLine = (formData) => {
+  const {adj1, noun1, adv, verb, adj2, noun2} = formData;
+  return `The ${adj1} ${noun1} ${adv} ${verb} the ${adj2} ${noun2} .`;
+};
+
 const Game = () => {
   const [ lines, setLines ] = useState([]);
   const [ done, setDone ] = useState(false);
@@ -19,7 +24,7 @@ const Game = () => {
   const handleFormSubmit = (formData) => {
     // console.log(formData);
     // lines.push(formData);
-    setLines(lines => [...lines, formData]);
+    setLines(lines => [...lines, makeLine(formData)]);
   };
 
   const handleReveal = () => {
@@ -45,7 +50,7 @@ const Game = () => {
 
       {
         !done &&
-        <PlayerSubmissionForm index={lines.length + 1} sendSubmission={handleFormSubmit} />
+        <PlayerSubmissionForm fields={FIELDS} index={lines.length + 1} sendSubmission={handleFormSubmit} />
       }     
 
       <FinalPoem isSubmitted={done} submissions={lines} revealPoem={handleReveal} />
